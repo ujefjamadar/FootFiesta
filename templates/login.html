@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+<style>
+  body {
+    background-color: rgb(4, 10, 32);
+  }
+  .box {
+    border: 2px solid rgb(29, 27, 189);
+    border-radius: 5px;
+  }
+</style>
+{% block start %}
+
+<div class="col-sm-4 mx-auto shadow p-5 mt-3 box">
+  <h7>welcome back...!</h7>
+  <h4>User Login</h4>
+  <hr />
+
+  {% for message in messages %}
+  <div class="alert alert-danger">
+    {{ message }}
+  </div>
+{% endfor %}
+
+  <form method="post" action="">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Username</label>
+      <input type="text" class="form-control" name="fname" />
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" name="pass"/>
+    </div>
+
+    <button type="submit" style="width: 100%;background-color: black;color: white;" class="btn btn">
+      Log In
+    </button>
+    <div>
+      <center>
+        <p>--------New to FOOTFIESTA?--------</p>
+        <a href="reg">
+          <button type="button" style="width: 100%" class="btn btn-primary">
+            Register
+          </button>
+        </a>
+      </div>
+    </center>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block start %}
+{% include 'header.html' %}
+<div class="container " style="height: 450px;">
+    <div class="row border p-1" style="height: 450px;width: 100%;">
+        {% for i in product %}
+        <div class="col">
+            <img style="height: 400px;width: 100%;" src="{{i.pimage.url}}" alt="product_image">
+        </div>
+        <div class="col">
+            <p><b>Name</b>:{{i.shoename}}</p>
+            <p><b>Brand</b>:{{i.brand}}</p>
+            {% if i.cat == 1 %}
+            <p class="card-text"><b>Category:</b>Men</p>
+            {% elif i.cat == 2 %}
+            <p class="card-text"><b>Category:</b>Women</p>
+            {% else %}
+            <p class="card-text"><b>Category:</b>Child</p>
+            {% endif %}
+            <p><b>Price: </b> ₹.{{i.price}} </p>
+            <p><b>Details</b>:{{i.detail}}</p>
+            <a href="#" class="btn" onclick="decrement()">-</a>
+
+            <input
+              style="width: 30px"
+              type="text"
+              disabled
+              value="1"
+              id="counter"
+            />
+          
+            <a href="#" class="btn" onclick="increment()">+</a>
+          <br>
+            
+          <a href="/addtocart/{{i.id}}/" class="btn btn-primary  mt-1 py-2" style="color: white;background-color: rgb(25, 117, 223);">Buy</a>
+          {% if i.id in cart_items %}
+            <a href="{% url 'cart' %}" class="btn btn-primary mt-1 py-2" style="color: white;background-color: rgb(241, 238, 6);">Go to Cart</a>
+            {% else %}
+            <a href="/addtocart/{{i.id}}/" class="btn btn-primary mt-1 py-2" style="color: white;background-color: black;">Add to Cart</a>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+<script>
+    // JavaScript code to handle increment and decrement
+    var counterElement = document.getElementById('counter');
+
+    function increment() {
+      var currentValue = parseInt(counterElement.value, 10);
+      counterElement.value = currentValue + 1;
+    }
+
+    function decrement() {
+      var currentValue = parseInt(counterElement.value, 10);
+      if (currentValue > 1) {
+        counterElement.value = currentValue - 1;
+      }
+    }
+</script>
+
+{% endblock %}

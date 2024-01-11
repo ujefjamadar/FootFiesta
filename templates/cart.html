@@ -1,0 +1,126 @@
+{% extends 'base.html' %} {% load static %}
+<style>
+  .btn {
+    background-color: blue;
+  }
+</style>
+
+{% block start %} {% include 'header.html' %}
+<div class="container">
+  <h3>Welcome to cart,{{user.username}}</h3>
+  <hr />
+  {% if cart_items %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Items</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total</th>
+        <!-- <th scope="col">Buy</th> -->
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart_items %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>
+          <img
+            style="height: 100px; width: 130px"
+            src="{{ item.pid.pimage.url }}"
+            alt=""
+          />
+        </td>
+        <td>{{ item.pid.shoename }}</td>
+        <td>{{ item.pid.price }}</td>
+        <td>
+          <a
+            href="/updatecartdec/{{item.id}}"
+            style="
+              background-color: blue;
+              color: white;
+              font-weight: 300;
+              height: 30px;
+              width: 20%;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+            "
+            class="btn"
+            >-</a
+          >
+
+          <input
+            style="width: 30px"
+            type="text"
+            disabled
+            name="quantity_{{ item.id }}"
+            value="{{ item.quantity }}"
+            min="1"
+            id="quantityInput_{{ item.id }}"
+          />
+          <a
+            href="/updatecartinc/{{item.id}}"
+            style="
+              background-color: blue;
+              color: white;
+              font-weight: 300;
+              height: 30px;
+              width: 20%;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+            "
+            class="btn"
+            >+</a
+          >
+        </td>
+        <td>{{ item.tprice }}</td>
+
+        <!-- <td><button type="button" class="btn btn-dark">Buy</button></td> -->
+        <td>
+          <a href="/remove/{{item.id}}" type="button" class="btn btn-danger"
+            >Remove</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="tot p-1" style="margin-left: 70%">
+    <p><b>Total:{{total}}</b></p>
+    <hr />
+    <div class="div mx-1" style="display: flex">
+      <input
+        type="hidden"
+        name="item_ids"
+        value="{% for item in cart_items %}{{ item.id }},{% endfor %}"
+      />
+      <a type="submit" href="/checkout/" class="btn btn-outline-success me-2"
+        >Buy All</a
+      >
+
+      <a href="/removeall" type="button" class="btn btn-danger">Remove all</a>
+    </div>
+  </div>
+  {% else %}
+  <center>
+    <img
+      src="{% static 'images/cartempty.jpg' %}"
+      alt=""
+      style="height: 400px"
+    /><br />
+    <a href="/">
+      <button type="button" class="btn btn-primary pb-1 mb-2">
+        Explore More...
+      </button></a
+    >
+  </center>
+  {% endif %}
+</div>
+
+{% include 'footer.html' %} {% endblock %}

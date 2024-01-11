@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+<style>
+ /* Apply some basic styling to the footer */
+footer {
+    background-color: #1b1d1f;
+    padding: 20px;
+    margin-top: 20px;
+    color: white !important;
+}
+
+li {
+    color: white !important;
+}
+
+/* Style for each column within the footer */
+footer .container {
+    display: flex;
+    justify-content: space-around;
+}
+
+footer h4 {
+    color: #333;
+}
+
+footer p {
+    color: #555;
+}
+
+/* Style for the quick links */
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer ul li {
+    margin-bottom: 5px;
+    color: white !important;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Style for social media icons */
+footer .list-inline {
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+footer .list-inline-item {
+    margin-right: 10px;
+}
+
+footer .list-inline-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer .list-inline-item a:hover {
+    color: #0056b3;
+}
+
+</style>
+{% block start %}
+<footer style="background-color: #1d324e; padding: 20px;color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Contact Us</h4>
+                <p>Email: info@footfiesta.com</p>
+                <p>Phone: +91 9156429948</p>
+                <p>Address: 123 Shoe Street, kothali,416101 <br>Kolhapur, India</p>
+            </div>
+
+            <div class="col-md-4"   style="color: white;">
+                <h4>Quick Links</h4>
+                <ul >
+                    <li><a style="color: white;" href="#">Home</a></li>
+                    <li><a style="color: white;" href="#">Men's Shoes</a></li>
+                    <li><a style="color: white;" href="#">Women's Shoes</a></li>
+                    <li><a  style="color: white;"href="#">Kid's Shoes</a></li>
+                    <!-- <li><a  style="color: white;"href="#">New Arrivals</a></li> -->
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Follow Us</h4>
+                <p>Stay connected on social media:</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a style="color: white;" href="#"><i class="fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a style="color: white;"   href="#"><i class="fa-brands fa-x-twitter"></i></a></li>
+                    <li class="list-inline-item"><a style="color: white;" href="#"><i class="fab fa-instagram"></i></a></li>
+                    <li class="list-inline-item"><a style="color: white;" href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block start %}
+  {% include 'header.html' %}
+  <h3 class="mx-3">Your Order History</h3>
+  <div class="container-md-2" style="height: 700px; overflow-y: auto;">
+    <table class="table py-2 m-2 ">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Order ID</th>
+          <th scope="col">Product</th>
+          <th scope="col">Date</th>
+          <th scope="col">Total</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in my_order %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ order.id }}</td>
+            <td>
+              {% for order_item in order.order_items.all %}
+                {{ order_item.product.shoename }}<br>
+              {% endfor %}
+            </td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.total_amount }}</td>
+            <td style="color: {% if order.status == 'Cancelled' %}red{% elif order.status == 'Delivered' %}green{% elif order.status == 'Shipped' %}blue{% elif order.status == 'Processing' %}orange{% elif order.status == 'Pending' %}purple{% endif %}">
+              {{ order.status }}
+            </td>
+            <td>
+              {% if order.status == 'Pending' or order.status == 'Processing'  %}
+                <a href="{% url 'delete_order' order_id=order.id %}" style="color: white; background-color: red; text-decoration: none;">
+                  <i class="fa-solid fa-trash-can"></i>
+                </a>
+              {% elif order.status == 'Cancelled' %}
+                <i class="fa-solid fa-rectangle-xmark" style="color: red;"></i>
+              {% elif order.status == 'Shipped' %}
+                <i class="fa-solid fa-truck-fast " style="color: blue;"></i>
+              {% else %}
+                <i class="fa-solid fa-circle-check" style="color: green;"></i>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'footer.html' %}
+{% endblock %}

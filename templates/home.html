@@ -1,0 +1,147 @@
+{% extends 'base.html' %} {% load static %}
+<style>
+  img {
+    width: 100%;
+    height: 400px;
+  }
+
+  .card-buttons {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .card:hover .card-buttons {
+    opacity: 1;
+  }
+</style>
+
+{% block start %} {% include 'header.html' %}
+<div
+  id="carouselExampleIndicators"
+  class="carousel slide"
+  style="height: 400px"
+  data-bs-ride="carousel"
+>
+  <div class="carousel-indicators">
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="0"
+      class="active"
+      aria-current="true"
+      aria-label="Slide 1"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="1"
+      aria-label="Slide 2"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      data-bs-slide-to="2"
+      aria-label="Slide 3"
+    ></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-bs-interval="2000">
+      <img
+        style="height: 400px"
+        src="{% static 'images/870_01.jpeg' %}"
+        class="d-block w-100"
+        alt=""
+      />
+    </div>
+    <div class="carousel-item" data-bs-interval="2000">
+      <img
+        style="height: 400px"
+        src="{% static 'images/Campus OGs X King.jpg' %}"
+        class="d-block w-100"
+        alt=""
+      />
+    </div>
+    <div class="carousel-item" data-bs-interval="2000">
+      <img
+        style="height: 400px"
+        src="{% static 'images/maxresdefault.jpg' %}"
+        class="d-block w-100"
+        alt=""
+      />
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<!--  clouser end -->
+
+<div class="t">
+  <h3 style="font-weight: 400" class="my-2">Suggested for you</h3>
+  <hr />
+</div>
+
+<div class="section">
+  <div class="row">
+    {% for i in product %}
+    <div class="col-md-4 p-1 mx-4" style="width: 250px">
+      <div
+        class="card"
+        style="width: 100%; border-radius: 0%; margin-left: 70px"
+      >
+        <img
+          style="width: 100%; height: 200px"
+          src="{{i.pimage.url}}"
+          class="card-img-top"
+          alt="Product"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{i.shoename}}</h5>
+          <p class="card-text">Rs.{{i.price}}</p>
+          {% if i.cat == 1 %}
+          <p class="card-text"><b>Category:</b>Men</p>
+          {% elif i.cat == 2 %}
+          <p class="card-text"><b>Category:</b>Women</p>
+          {% else %}
+          <p class="card-text"><b>Category:</b>Child</p>
+          {% endif %}
+          <div class="card-buttons">
+            <a
+              href="detail/{{i.id}}"
+              class="btn btn-primary"
+              style="color: white; background-color: black"
+              >View Details</a
+            >
+            <a
+              href="addtocart/{{i.id}}"
+              class="btn btn-primary"
+              style="color: white; background-color: black"
+              ><i class="fa-solid fa-cart-arrow-down"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- 1st row of product -->
+</div>
+
+<div class="empty"></div>
+
+{% include 'footer.html' %} {% endblock %}

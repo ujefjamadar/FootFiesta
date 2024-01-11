@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block start %}
+  <style>
+    /* Add this CSS to your existing styles */
+    .navbar-nav .nav-link {
+      position: relative;
+      text-decoration: none;
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #17a2b8; /* Change the color to your desired underline color */
+    }
+
+    .navbar-nav .nav-link::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: black; /* Change the color to your desired underline color */
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+   
+    
+   .head2 .fa-solid {
+      font-size: 24px; /* Adjust the size to your preference */
+    }
+    #searchForm {
+    position: relative;
+  }
+
+  #searchinp {
+    padding-right: 40px; /* Adjust the padding to make space for the icon */
+    border-right: none; /* Remove the right border of the input */
+  }
+
+  #searchForm button {
+    position: absolute;
+    right: 0; /* Change to right to position the icon at the end */
+    top: 0;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  #searchForm i {
+    color: black;
+    font-size: 20px;
+    margin-top: 10px; /* Adjust the margin to center the icon vertically */
+    margin-right: 10px; /* Add margin to the right of the icon */
+    border-left: 1px solid #ccc; /* Add left border to the icon */
+    padding-left: 10px; /* Adjust padding to separate the icon from the input text */
+  }
+  </style>
+
+  <header>
+    <div class="heading" style="display:flex;height: 50px; ">
+      <div class="log" style="width: 25%;">
+        <a href="/" style="color: black; border: none;">
+          <h2 style="width: 20%; font-family: century gothic;text-align: center;">FOOTFIESTA</h2>
+        </a>
+      </div>
+      <div class="search" style="width: 55%; margin-right: 20px;">
+        <form id="searchForm" class="d-flex" role="search">
+          <input id="searchinp" class="form-control me-2" type="search" name="inpsearch" placeholder="Search shoes..." aria-label="Search" />
+          <button type="submit" style="border: none; background-color: transparent; padding: 0;">
+            <i class="fas fa-search" style="color: black; font-size: 20px;"></i>
+          </button>
+        </form>
+    </div>
+      <div class="head2 p-1" style="cursor: pointer; display: flex;width: auto;margin-left: 45px;gap: 30px;">
+        <div class="acc">
+          {% if user.is_authenticated %}
+            <a>welcome,<br> {{user.username}} </i></a><br> 
+          {% else %}
+            <a>welcome,Guest </i></a><br>
+          {% endif %}
+        </div>
+        
+        <a href="/cart" style="position: relative;">
+          <i class="fa-solid fa-cart-plus"></i>
+          {% if cart_items_count > 0 %}
+            <b style="position: absolute; top: -10px; right: -8px; background-color: red; color: white; border-radius: 40%; padding: 2px 6px;">{{ cart_items_count }}</b>
+          {% endif %}
+        </a>
+        <a href="/checkout"> <!--for orderitems  -->
+          <i class="fa-solid fa-bag-shopping"></i>
+        </a>
+      </div>
+    </div>
+    <hr>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="padding: 0px;">
+      <div class="container-fluid" style="background-color: white;">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <center>
+          <div class="collapse navbar-collapse " id="navbarSupportedContent" style="color: black;justify-content: space-between;height: 30px;" >
+            <ul class="navbar-nav ">
+              <li class="nav-item">
+                <a class="nav-link active" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/men">Mens</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/women">Womens</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/child">Kids</a>
+              </li>
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link active" href="/logout">Logout</a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link active" href="/login">Login</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </center>
+      </div>
+    </nav>
+    <hr>
+  </header>
+{% endblock %}

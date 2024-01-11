@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+<style>
+     body {
+        background-color: rgb(4, 10, 32); /* Set your desired background color */
+    }
+    .box{
+        border: 2px solid rgb(29, 27, 189);
+        border-radius: 5px;
+    }
+</style>
+{% block start %}
+
+<div class="col-sm-4 mx-auto shadow p-5 mt-3 box">
+    <h7>welcome to FOOTFIESTA</h7>
+    <h4>User Registration</h4>
+    <hr>
+    {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post" action="">
+              {% csrf_token %}
+        <div class="fullname" style="display: inline-flex;gap: 50px;" >
+
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">First Name</label><br>
+                <input style="width: 110%;" type="text" class="form-control" id="fname" name="fname">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Last Name</label><br>
+                <input style="width: 110%;" type="text" class="form-control" id="lname" name="lname">
+            </div>
+        </div>
+       
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="emailid">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="pass">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="cpass">
+        </div>
+
+        <button type="submit" style="width: 100%;" class="btn btn-primary">Register</button>
+        <center><p><u>already have a account ?</u><a style="text-decoration:underline;color: blue ;" href="/login">Login</a></p></center>
+    </form>
+    
+</div>
+
+
+{% endblock %}

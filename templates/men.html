@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/mens.css' %}" />
+
+{% block start %}
+{% include 'header.html' %}
+
+<div class="main" id="box" style="display: flex; width: 100%">
+  <div class="col-md-2 mx-1" style="height: 300px;">
+    <h4>Filters</h4>
+    
+    <!-- Add this code wherever you want to display the dropdown list for subcategories -->
+    <select
+      id="mensShoeSubCategories"
+      name="mensShoeSubCategories"
+      style="
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #333;
+        font-size: 16px;
+        cursor: pointer;
+        outline: none;
+        width: 100%;
+      "
+    >
+      <option value="all">All</option>
+      <option value=2>Athletic Shoes</option>
+      <option value=3>Casual Shoes</option>
+      <option value=4>Boots</option>
+      <option value=5>Sandals</option>
+      <option value=6>Formal Shoes</option>
+      <option value=7>Slippers</option>
+    </select>
+
+    <div class="p-2">
+      <h3>Sort By</h3>
+      <label style="margin-right: 8px" for="minprice">Min Price:</label>
+      <input type="text" id="minprice" name="minprice" />
+    </div>
+    <div class="p-2">
+      <label for="maxprice">Max Price:</label>
+      <input type="text" id="maxprice" name="maxprice" />
+    </div>
+    <div class="p-2">
+      <button class="btn btn-primary" onclick="applyFilters()">
+        Apply Filters
+      </button>
+    </div>
+  </div>
+  <!-- fRST COL -->
+  <div
+    class="row box mx-2"
+    id="product-container"
+    style="display: flex; align-items: center; justify-content: center"
+  >
+  <img
+  src="{% static 'images/man.jpg' %}"
+  alt=""
+  style="height: 150px"
+/>
+    {% for i in product %}
+      {% if i.cat == 1 %}
+        <div class="col-md-4 p-1 mx-4" style="width: 250px">
+          <div class="card" style="width: 100%; border-radius: 0%; margin-left: 80px">
+            <img style="width: 100%; height: 200px" src="{{i.pimage.url}}" class="card-img-top" alt="Product" />
+            <div class="card-body">
+              <h5 class="card-title">{{i.shoename}}</h5>
+              <p class="card-text">Rs.{{i.price}}</p>
+              <!-- <p class="card-text"><b>Category:</b>Men</p> -->
+              <p class="card-text"><b>Subcategory:</b>
+                {% if i.subcat == 1 %}
+                  All
+                {% elif i.subcat == 2 %}
+                  Athletic Shoes
+                {% elif i.subcat == 3 %}
+                  Casual Shoes
+                {% elif i.subcat == 4 %}
+                  Boots
+                {% elif i.subcat == 5 %}
+                  Sandals
+                {% elif i.subcat == 6 %}
+                  Formal Shoes
+                {% elif i.subcat == 7 %}
+                  Slippers
+                {% endif %}
+              </p>
+              <a href="/detail/{{i.id}}" class="btn btn-primary" style="color: white; background-color: black">View Details</a>
+              <a href="/addtocart/{{i.id}}" class="btn btn-primary" style="color: white; background-color: black"><i class="fa-solid fa-cart-arrow-down"></i></a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% include 'footer.html' %}
+<script src="{% static 'js/men.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  function applyFilters() {
+    var selectedSubCategory = $("#mensShoeSubCategories").val();
+    var minPrice = $("#minprice").val();
+    var maxPrice = $("#maxprice").val();
+
+    // Filtering logic based on subcategory, min price, and max price
+    var filteredProducts = [];
+
+    {% for i in product %}
+      {% if i.cat == 1 %}
+        // Add your filtering conditions here
+        var currentSubCategory = {% if i.subcat == 1 %}'all'{% else %}'{{ i.subcat }}'{% endif %};
+        if ((selectedSubCategory === 'all' || selectedSubCategory === currentSubCategory) &&
+            (!minPrice || parseFloat('{{ i.price }}') >= parseFloat(minPrice)) &&
+            (!maxPrice || parseFloat('{{ i.price }}') <= parseFloat(maxPrice))) {
+          filteredProducts.push({
+            shoename: '{{ i.shoename }}',
+            price: '{{ i.price }}',
+            pimage: '{{ i.pimage.url }}',
+            id: '{{ i.id }}',
+            category: 'Men',
+            subcategory: currentSubCategory
+          });
+        }
+      {% endif %}
+    {% endfor %}
+
+    // Clear the current products
+    $("#product-container").empty();
+
+    // Append the filtered products
+    for (var i = 0; i < filteredProducts.length; i++) {
+      var product = filteredProducts[i];
+      // Render the product card and append it to the product container
+      var renderedProductCard = `<div class="col-md-4 p-1 mx-4" style="width: 250px">
+        <div class="card" style="width: 100%; border-radius: 0%; margin-left: 80px">
+          <img style="width: 100%; height: 200px" src="${product.pimage}" class="card-img-top" alt="Product" />
+          <div class="card-body">
+            <h5 class="card-title">${product.shoename}</h5>
+            <p class="card-text">Rs.${product.price}</p>
+            <p class="card-text"><b>Category:</b>${product.category}</p>
+            <p class="card-text"><b>Subcategory:</b>
+              ${product.subcategory == 'all' ? 'All' :
+                product.subcategory == '2' ? 'Athletic Shoes' :
+                product.subcategory == '3' ? 'Casual Shoes' :
+                product.subcategory == '4' ? 'Boots' :
+                product.subcategory == '5' ? 'Sandals' :
+                product.subcategory == '6' ? 'Formal Shoes' :
+                product.subcategory == '7' ? 'Slippers' : ''}
+            </p>
+            <a href="/detail/${product.id}" class="btn btn-primary" style="color: white; background-color: black">View Details</a>
+            <a href="/addtocart/${product.id}" class="btn btn-primary" style="color: white; background-color: black"><i class="fa-solid fa-cart-arrow-down"></i></a>
+          </div>
+        </div>
+      </div>`;
+
+      $("#product-container").append(renderedProductCard);
+    }
+  }
+</script>
+
+{% endblock %}
